@@ -1,0 +1,14 @@
+nameOverride: ""
+fullnameOverride: ""
+
+traefik:
+  additionalArgs: []
+  ingress:
+    domain: traefik.example.com
+    ingressRoute: true
+    annotations: {}
+    tls:
+      enabled: true
+      secretName: service-tls
+
+

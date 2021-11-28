@@ -1,0 +1,61 @@
+{{- if .values.traefik.ingress.ingressRoute }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-dashboard
+  namespace: kube-system
+  labels:
+    {{- include "traefik-dashboard.helmLabels" . | nindent 4 }}
+spec:
+  entryPoints:
+    {{- .Values.traefik.ingress.entryPoints | default (list) | toYaml | nindent 4 }}
+  routes:
+    - kind: Rule
+      match: Host(`{{ .Values.traefik.ingress.domain }}`)
+      priority: 10
+      {{ if gt (len (default (list) .Values.traefik.ingress.middlewares)) 0 }}
+      middlewares:
+        {{- .Values.traefik.ingress.middlewares | toYaml | nindent 8 }}
+      {{- end }}
+      services:
+        - name: traefik-dashboard
+          port: 80
+  {{- if .Values.traefik.ingress.tls.enabled }}
+  tls:
+    secretName: {{ .Values.traefik.ingress.tls.secretName }}
+  {{- end }}
+{{- else }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: traefik-dashboard
+  namespace: kube-system
+  labels:
+    app.kubernetes.io/name: {{ include "traefik-dashboard.name" . }}
+    {{- include "traefik-dashboard.helmLabels" . | nindent 4 }}
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    {{- .Values.traefik.ingress.annotations | default (dict) | toYaml | nindent 4 }}
+spec:
+  {{- if .Values.traefik.ingress.tls.enabled }}
+  tls:
+    - secretName: {{ .Values.traefik.ingress.tls.secretName }}
+      hosts:
+        - {{ .Values.traefik.ingress.domain }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.traefik.ingress.domain }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name:  traefik-dashboard
+                port:
+                  number: 80
+{{- end }}

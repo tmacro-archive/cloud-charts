@@ -1,0 +1,14 @@
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    {{- if gt len (default (list) .Values.traefik.additionalArgs) 0 }}
+    additionalArguments:
+      {{- .Values.traefik.additionalArgs | toYaml | nindent 6 }}
+    {{- else }}
+    additionalArguments: []
+    {{- end }}
