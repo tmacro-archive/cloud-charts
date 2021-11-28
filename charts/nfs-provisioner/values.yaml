@@ -1,0 +1,53 @@
+nameOverride: ""
+fullnameOverride: ""
+
+nfs-provisioner-temp:
+  enabled: true
+  fullnameOverride: nfs-provisioner-temp
+  nfs:
+    reclaimPolicy: Retain
+  storageClass:
+    create: true
+    name: temp-nfs
+    defaultClass: false
+    allowVolumeExpansion: true
+    reclaimPolicy: Delete
+    archiveOnDelete: false
+    accessModes: ReadWriteOnce
+    resources: {}
+      # limits:
+      #  cpu: 100m
+      #  memory: 128Mi
+      # requests:
+      #  cpu: 100m
+      #  memory: 128Mi
+
+nfs-provisioner-managed:
+  enabled: true
+  fullnameOverride: nfs-provisioner-managed
+  nfs:
+    reclaimPolicy: Retain
+  storageClass:
+    create: true
+    name: managed-nfs
+    defaultClass: false
+    allowVolumeExpansion: true
+    reclaimPolicy: Delete
+    archiveOnDelete: true
+    accessModes: ReadWriteMany
+    resources: {}
+
+nfs-provisioner-durable:
+  enabled: true
+  fullnameOverride: nfs-provisioner-durable
+  nfs:
+    reclaimPolicy: Retain
+  storageClass:
+    create: true
+    name: durable-nfs
+    defaultClass: false
+    allowVolumeExpansion: true
+    reclaimPolicy: Retain
+    archiveOnDelete: true
+    accessModes: ReadWriteMany
+    resources: {}
