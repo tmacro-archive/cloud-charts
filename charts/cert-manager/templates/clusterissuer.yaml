@@ -4,8 +4,8 @@ kind: ClusterIssuer
 metadata:
   name: lets-encrypt-issuer
   labels:
-    app.kubernetes.io/name: {{ include "platform.name" . }}
-    {{- include "platform.helmLabels" . | nindent 4 }}
+    app.kubernetes.io/name: {{ include "cert-manager.name" . }}
+    {{- include "cert-manager.helmLabels" . | nindent 4 }}
   annotations:
     "helm.sh/hook": post-install
     "helm.sh/hook-weight": "99"
