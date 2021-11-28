@@ -1,0 +1,9 @@
+dependencies:
+- name: cert-manager
+  repository: https://charts.jetstack.io
+  version: v1.6.1
+- name: kubed
+  repository: https://charts.appscode.com/stable/
+  version: v0.12.0
+digest: sha256:da9db87f2befd54e9865955f842a99d74c9576c062be298b4bc462339542299d
+generated: "2021-11-28T14:47:17.926390296-08:00"

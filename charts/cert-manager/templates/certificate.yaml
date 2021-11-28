@@ -1,0 +1,42 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: service-tls
+  labels:
+    app.kubernetes.io/name: {{ include "cert-manager.name" . }}
+    {{- include "cert-manager.helmLabels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "99"
+    argocd.argoproj.io/sync-options: Prune=false
+spec:
+  # Secret names are always required.
+  secretName: service-tls
+
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  subject:
+    organizations:
+      - {{ .Values.common.rootDomain }}
+  isCA: false
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048
+  usages:
+    - server auth
+    - client auth
+  # At least one of a DNS Name, URI, or IP address is required.
+  dnsNames:
+    - '*.{{ .Values.common.serviceSubdomain }}.{{ .Values.common.rootDomain }}'
+    - 'ratebust.{{ .Values.common.rootDomain }}'
+  # Issuer references are always required.
+  issuerRef:
+    name: lets-encrypt-issuer
+    # We can reference ClusterIssuers by changing the kind here.
+    # The default value is Issuer (i.e. a locally namespaced Issuer)
+    kind: ClusterIssuer
+  secretTemplate:
+    annotations:
+      kubed.appscode.com/sync: "cert-manager-tls=service"

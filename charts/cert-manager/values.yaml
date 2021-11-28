@@ -1,0 +1,20 @@
+nameOverride: ""
+fullnameOverride: ""
+
+dns:
+  staging: true
+
+cert-manager:
+  installCRDs: true
+  extraArgs:
+    - --dns01-recursive-nameservers-only
+    - --dns01-recursive-nameservers=1.1.1.1:53
+
+kubed:
+  enabled: true
+  fullnameOverride: kubed
+  enableAnalytics: false
+  config:
+    clusterName: cert-manager-sync
+    # If set, configmaps and secrets from only this namespace will be synced
+    configSourceNamespace: "cert-manager"
