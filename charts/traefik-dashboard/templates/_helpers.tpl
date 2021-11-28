@@ -54,7 +54,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Common Helm labels
 */}}
 {{- define "traefik-dashboard.helmLabels" -}}
-helm.sh/chart: {{ include "traefik.chart" . }}
+helm.sh/chart: {{ include "traefik-dashboard.chart" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
