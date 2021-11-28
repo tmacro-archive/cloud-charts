@@ -1,0 +1,8 @@
+{{- $secret := (lookup "v1" "Secret" .Release.Namespace "authelia-service-credentials") | default dict -}}
+{{- $secretData := (get $secret "data") | default dict -}}
+{{ $secretData | toYaml}}
+
+{{- $password := get $secretData "postgresql-password" }}
+postgresql-password: {{ $password | b64enc | quote }}
+{{- $adminPassword := (get $secretData "postgresql-postgres-password") }}
+postgresql-postgres-password: {{ $adminPassword | b64enc | quote }}

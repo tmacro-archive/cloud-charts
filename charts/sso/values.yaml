@@ -1,0 +1,114 @@
+---
+common:
+  rootDomain: example.com
+  serviceSubdomain: in
+
+authelia-postgres:
+  enabled: true
+  fullnameOverride: authelia-postgres
+  existingSecret: authelia-service-credentials
+  postgresqlUsername: authelia
+  postgresqlDatabase: authelia
+  image:
+   debug: true
+  persistence:
+    enabled: true
+    storageClass: managed-nfs
+    accessModes:
+      - ReadWriteMany
+  lifecycleHooks:
+    postStart:
+      exec:
+        command: ["/bin/sh", "-c", "chown -R 1001:1001 /bitnami/postgresql/data"]
+
+authelia-redis:
+  enabled: true
+  architecture: standalone
+  fullnameOverride: authelia-redis
+  auth:
+    enabled: false
+    existingSecret: authelia-service-credentials
+    password: CHANGE_ME
+  master:
+    persistence:
+      enabled: false
+  replica:
+    replicaCount: 1
+    persistence:
+      enabled: false
+
+authelia:
+  nameOverride: authelia
+  domain: example.com
+  ingress:
+    enabled: true
+    subdomain: sso
+    traefikCRD:
+      enabled: true
+      disableIngressRoute: false
+      entryPoints:
+        - websecure
+    tls:
+      secret: service-tls
+    annotations:
+      traefik.ingress.kubernetes.io/router.tls: "true"
+  env:
+    - name: TZ
+      value: America/Los_Angeles
+  pod:
+    kind: Deployment
+    extraVolumeMounts:
+      - mountPath: /static
+        name: users-database
+        readOnly: true
+    extraVolumes:
+      - name: users-database
+        secret:
+          secretName: authelia-user-database
+          items:
+            - key: users_database
+              path: users_database.yaml
+  secret:
+    existingSecret: authelia-service-credentials
+    storage:
+      key: postgresql-password
+  users: null
+  configMap:
+    enabled: true
+    existingConfigMap: authelia-configmap
+    log:
+      level: debug
+    totp:
+      issuer: sso.example.com
+    authentication_backend:
+      # disable_reset_password: true
+      ldap:
+        enabled: false
+      file:
+        enabled: true
+        path: /static/users_database.yaml
+    access_control:
+      default_policy: two_factor
+      rules: []
+    session:
+      redis:
+        host: authelia-redis-master
+    storage:
+      postgres:
+        host: authelia-postgres
+    notifier:
+      smtp:
+        # HELO/EHLO Identifier. Some SMTP Servers may reject the default of localhost.
+        identifier: localhost
+        # Subject configuration of the emails sent.
+        # {title} is replaced by the text from the notifier
+        subject: "[Authelia] {title}"
+        # This address is used during the startup check to verify the email configuration is correct. It's not important what it is except if your email server only allows local delivery.
+        startup_check_address: test@mail.tmacs.cloud
+        disable_require_tls: false
+        disable_html_emails: false
+    identity_providers:
+      oidc:
+        enabled: true
+        clients: []
+

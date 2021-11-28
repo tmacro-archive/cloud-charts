@@ -1,0 +1,12 @@
+dependencies:
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 10.13.8
+- name: redis
+  repository: https://charts.bitnami.com/bitnami
+  version: 15.5.5
+- name: authelia
+  repository: https://charts.authelia.com
+  version: 0.6.3
+digest: sha256:feabc72dcf7fa61eb0b87e63de67aa568e50840f5b8feea278334bbdb6806640
+generated: "2021-11-28T14:47:30.742086562-08:00"
