@@ -26,7 +26,7 @@ type: Opaque
 stringData:
   client_secret: {{ $client_secret | quote }}
   client_id: {{ $client.id | quote }}
-  issuer: 'https://{{ .Values.authelia.ingress.subdomain }}.{{ .Values.authelia.domain }}'
+  issuer: 'https://{{ $.Values.authelia.ingress.subdomain }}.{{ $.Values.authelia.domain }}'
 {{- end }}
 ---
 apiVersion: v1
