@@ -15,6 +15,6 @@ kubed:
   fullnameOverride: kubed
   enableAnalytics: false
   config:
-    clusterName: cert-manager-sync
+    clusterName: secret-sync
     # If set, configmaps and secrets from only this namespace will be synced
-    configSourceNamespace: "cert-manager"
+    configSourceNamespace: ""
