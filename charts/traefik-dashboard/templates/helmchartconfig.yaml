@@ -4,8 +4,13 @@ kind: HelmChartConfig
 metadata:
   name: traefik
   namespace: kube-system
+  labels:
+    {{- include "traefik-dashboard.helmLabels" . | nindent 4 }}
 spec:
   valuesContent: |-
+    providers:
+      kubernetesCRD:
+        allowCrossNamespace: True
     {{- if gt (len (default (list) .Values.traefik.additionalArgs)) 0 }}
     additionalArguments:
       {{- .Values.traefik.additionalArgs | toYaml | nindent 6 }}
