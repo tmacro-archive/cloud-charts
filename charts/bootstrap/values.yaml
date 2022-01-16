@@ -1,0 +1,48 @@
+nameOverride: ""
+fullnameOverride: ""
+
+release: Crouching Tiger
+
+argo:
+  enabled: True
+  namespace: argocd
+  namespaceLabels:
+    cert-manager-tls: service
+    authelia-client: argocd-dex
+  chartUrl: 'https://github.com/argoproj/argo-helm/releases/download/argo-cd-{{ .chartVersion }}/argo-cd-{{ .chartVersion }}.tgz'
+  chartVersion: '3.26.11'
+  ingress:
+    enabled: True
+    domain: argo.example.com
+    entryPoints:
+      - websecure
+    tls:
+      enabled: True
+      secretName: service-tls
+  rbac:
+    policies: []
+    groups: []
+  connectors:
+    - name: SSO
+      issuer: $authelia-oidc-argocd-dex-client-secret:issuer
+      clientID: $authelia-oidc-argocd-dex-client-secret:client_id
+      clientSecret: $authelia-oidc-argocd-dex-client-secret:client_secret
+      requestedScopes: ["openid", "profile", "email", "groups"]
+  valuesTpl: |-
+    server:
+      extraArgs:
+        - --insecure
+      config:
+        url: https://{{ .ingress.domain }}
+      oidc.config: |-
+        {{- .connectors | default (list) | toYaml | nindent 8}}
+      rbacConfig:
+        policy.csv: |
+        {{- with $rbac := default (dict) .rbac }}
+        {{- range $policy := (default (list) $rbac.policies) }}
+          {{ $policy }}
+        {{- end -}}
+        {{- range $group := (default (list) $rbac.groups) }}
+          {{ $group }}
+        {{- end -}}
+        {{- end -}}
