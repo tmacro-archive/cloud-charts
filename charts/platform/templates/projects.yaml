@@ -1,0 +1,40 @@
+{{ range $name, $project := .Values.projects | default (dict) }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: {{ $name }}
+  namespace: {{ $.Values.argo.namespace }}
+  labels:
+    {{- include "platform.helmLabels" $ | nindent 4 }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: {{ $project.description }}
+  sourceRepos:
+    {{- $project.sourceRepos | toYaml | nindent 4 }}
+  destinations:
+    {{- $project.destinations | toYaml | nindent 4 }}
+  {{- if $project.clusterResourceWhitelist }}
+  clusterResourceWhitelist:
+    {{- $project.clusterResourceWhitelist | toYaml | nindent 4 }}
+  {{- end }}
+  {{- if $project.clusterResourceBlacklist }}
+  clusterResourceBlacklist:
+    {{- $project.clusterResourceBlacklist | toYaml | nindent 4 }}
+  {{- end }}
+  {{- if $project.namespaceResourceWhitelist }}
+  namespaceResourceWhitelist:
+    {{- $project.namespaceResourceWhitelist | toYaml | nindent 4 }}
+  {{- end }}
+  {{- if $project.namespaceResourceBlacklist }}
+  namespaceResourceBlacklist:
+    {{- $project.namespaceResourceBlacklist | toYaml | nindent 4 }}
+  {{- end }}
+  {{- if ne (len (default list $project.roles)) 0 }}
+  roles:
+    {{- $project.roles | toYaml | nindent 4 }}
+  {{- else }}
+  roles: []
+  {{- end }}
+{{- end }}

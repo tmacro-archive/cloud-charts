@@ -1,0 +1,10 @@
+{{ range $name, $namespace := .Values.namespaces | default (dict) }}
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $name }}
+  labels:
+    {{- $namespace.labels | default (dict) | toYaml | nindent 4 }}
+    {{- include "platform.helmLabels" $ | nindent 4 }}
+{{- end }}

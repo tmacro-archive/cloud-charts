@@ -1,0 +1,75 @@
+
+nameOverride: ""
+fullnameOverride: ""
+
+argo:
+  namespace: argocd
+
+projects:
+  platform-services:
+    description: Shared platform services
+    sourceRepos:
+      - '*'
+    destinations:
+      - namespace: platform
+        server: https://kubernetes.default.svc
+      - namespace: cert-manager
+        server: https://kubernetes.default.svc
+      - namespace: monitoring
+        server: https://kubernetes.default.svc
+      - namespace: argocd
+        server: https://kubernetes.default.svc
+      - namespace: kube-system
+        server: https://kubernetes.default.svc
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    clusterResourceBlacklist: false
+    namespaceResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    namespaceResourceBlacklist: false
+    roles: []
+  user-services:
+    description: Project for user deployed services
+    sourceRepos:
+      - '*'
+    destinations:
+      - namespace: '*'
+        server: '*'
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    clusterResourceBlacklist: false
+    namespaceResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    namespaceResourceBlacklist: false
+    roles: []
+
+application_defaults:
+  source:
+    targetRevision: HEAD
+    path: '.'
+  destination:
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - Validate=true
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
+  values: {}
+applications: {}
+
+namespaces:
+  platform:
+    labels:
+      cert-manager-tls: service
+  workload:
+    labels:
+      cert-manager-tls: service
