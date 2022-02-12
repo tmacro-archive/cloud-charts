@@ -39,3 +39,9 @@ jobs:
           dry_run: 'true'
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ failure() }}
+        with:
+          limit-access-to-actor: true
