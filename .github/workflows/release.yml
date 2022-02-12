@@ -34,7 +34,7 @@ jobs:
           helm repo add bitnami https://charts.bitnami.com/bitnami
           
       - name: Run chart-releaser
-        uses: tmacro/helm-repo-multichart@1.0.0alpha5
+        uses: tmacro/helm-repo-multichart@1.0.0alpha6
         with:
           dry_run: 'true'
         env:
