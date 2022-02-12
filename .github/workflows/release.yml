@@ -45,3 +45,6 @@ jobs:
         if: ${{ failure() }}
         with:
           limit-access-to-actor: true
+          chart_repo_url: https://charts.tmacro.dev
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
