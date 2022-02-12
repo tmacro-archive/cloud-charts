@@ -3,7 +3,7 @@ name: Release Charts
 on:
   push:
     branches:
-      - trunk
+      - test
   workflow_dispatch: {}
   
 jobs:
@@ -34,8 +34,8 @@ jobs:
           helm repo add bitnami https://charts.bitnami.com/bitnami
           
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.3.0
+        uses: tmacro/helm-repo-multichart@1.0.0alpha1
         with:
-          charts_repo_url: https://charts.tmacro.dev
+          dry_run: 'true'
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
