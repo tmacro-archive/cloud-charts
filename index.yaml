@@ -97,6 +97,13 @@ entries:
     version: 1.0.0
   test:
   - apiVersion: v1
+    created: "2022-02-13T00:00:16.997882782Z"
+    digest: b0ce3ef8046cb06111b2b5193314e2f451033370dcbf5960f7394fd283be8287
+    name: test
+    urls:
+    - https://github.com/tmacro/cloud-charts/releases/download/test-1.0.17/test-1.0.17.tgz
+    version: 1.0.17
+  - apiVersion: v1
     created: "2022-02-12T23:58:44.691656501Z"
     digest: 1339ff40c1568e9b40e2402bdee653a3237a6542b086af66f594623740a2b49c
     name: test
@@ -114,4 +121,4 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/traefik-dashboard-1.0.0/traefik-dashboard-1.0.0.tgz
     version: 1.0.0
-generated: "2022-02-12T23:58:44.691663101Z"
+generated: "2022-02-13T00:00:16.997892982Z"
