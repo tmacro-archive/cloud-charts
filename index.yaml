@@ -30,6 +30,24 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/cert-manager-1.0.0/cert-manager-1.0.0.tgz
     version: 1.0.0
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-02-13T02:00:15.149136337Z"
+    dependencies:
+    - name: cert-manager
+      repository: https://charts.jetstack.io
+      version: 1.6.1
+    - condition: kubed.enabled
+      name: kubed
+      repository: https://charts.appscode.com/stable/
+      version: 0.12.0
+    description: A Helm chart for Kubernetes
+    digest: aebce2415ba4c3f47d8bb5e31b154620104b61b7f82ab9b85830e54893c0df2e
+    name: cert-manager
+    type: application
+    urls:
+    - https://github.com/tmacro/cloud-charts/releases/download/cert-manager-0.1.0/cert-manager-0.1.0.tgz
+    version: 0.1.0
   nfs-provisioner:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -57,6 +75,32 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/nfs-provisioner-1.0.0/nfs-provisioner-1.0.0.tgz
     version: 1.0.0
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-02-13T02:00:15.264768998Z"
+    dependencies:
+    - alias: nfs-provisioner-temp
+      condition: nfs-provisioner-temp.enabled
+      name: nfs-subdir-external-provisioner
+      repository: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+      version: 4.0.14
+    - alias: nfs-provisioner-managed
+      condition: nfs-provisioner-managed.enabled
+      name: nfs-subdir-external-provisioner
+      repository: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+      version: 4.0.14
+    - alias: nfs-provisioner-durable
+      condition: nfs-provisioner-durable.enabled
+      name: nfs-subdir-external-provisioner
+      repository: https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+      version: 4.0.14
+    description: A Helm chart for Kubernetes
+    digest: 42dc10daf91dd2510874f9aece3ab8e93a97f2a6d6164814f48e4392959e57bd
+    name: nfs-provisioner
+    type: application
+    urls:
+    - https://github.com/tmacro/cloud-charts/releases/download/nfs-provisioner-0.1.0/nfs-provisioner-0.1.0.tgz
+    version: 0.1.0
   platform:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -95,6 +139,32 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/sso-1.0.0/sso-1.0.0.tgz
     version: 1.0.0
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-02-13T02:00:15.417774105Z"
+    dependencies:
+    - alias: authelia-postgres
+      condition: authelia-postgres.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.13.8
+    - alias: authelia-redis
+      condition: authelia-redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.5.5
+    - alias: authelia
+      condition: authelia.enabled
+      name: authelia
+      repository: https://charts.authelia.com
+      version: 0.6.3
+    description: A Helm chart for Kubernetes
+    digest: 3e3d5aa79e222d9acd0c33af99806edf450bbca841bc7aca17fefafadfa7d414
+    name: sso
+    type: application
+    urls:
+    - https://github.com/tmacro/cloud-charts/releases/download/sso-0.1.0/sso-0.1.0.tgz
+    version: 0.1.0
   test:
   - apiVersion: v1
     created: "2022-02-13T00:00:16.997882782Z"
@@ -121,4 +191,14 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/traefik-dashboard-1.0.0/traefik-dashboard-1.0.0.tgz
     version: 1.0.0
-generated: "2022-02-13T00:00:16.997892982Z"
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2022-02-13T02:00:15.543429532Z"
+    description: Creates an ingress for traefik running on k3s
+    digest: 1267e7d44dca31f326f90bf1155eee056466fd5cf6c96de831d6778a6cc9f484
+    name: traefik-dashboard
+    type: application
+    urls:
+    - https://github.com/tmacro/cloud-charts/releases/download/traefik-dashboard-0.1.0/traefik-dashboard-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-02-13T02:00:15.543452032Z"
