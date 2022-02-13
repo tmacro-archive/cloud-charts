@@ -3,9 +3,9 @@ name: Release Charts
 on:
   push:
     branches:
-      - trunk
+      - test
   workflow_dispatch: {}
-  
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -24,7 +24,7 @@ jobs:
         uses: azure/setup-helm@v1
         with:
           version: v3.7.1
-      
+
       - name: Add upstream repos
         run: |
           helm repo add jetstack https://charts.jetstack.io
@@ -32,10 +32,17 @@ jobs:
           helm repo add authelia https://charts.authelia.com
           helm repo add nfs-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
           helm repo add bitnami https://charts.bitnami.com/bitnami
-          
+
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.3.0
+        uses: tmacro/helm-repo-multichart@1.0.0beta
         with:
-          charts_repo_url: https://charts.tmacro.dev
+          chart_repo_url: https://charts.tmacro.dev
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ failure() }}
+        with:
+          limit-access-to-actor: true
+          chart_repo_url: https://charts.tmacro.dev
