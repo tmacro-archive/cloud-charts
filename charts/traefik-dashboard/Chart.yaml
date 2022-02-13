@@ -2,5 +2,5 @@ apiVersion: v2
 name: traefik-dashboard
 description: Creates an ingress for traefik running on k3s
 type: application
-version: 1.0.0
+version: '0.1.0'
 appVersion: "1.0.0"
