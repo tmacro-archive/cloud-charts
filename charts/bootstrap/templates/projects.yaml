@@ -1,4 +1,5 @@
 ---
+{{- with $root := . -}}
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
@@ -16,7 +17,7 @@ spec:
       server: https://kubernetes.default.svc
   clusterResourceBlacklist: []
   namespaceResourceBlacklist: []
-  {{- if ne (len (default list .Values.project.roles)) 0 }}
+  {{- if ne (len (default list (default dict .Values.project).roles)) 0 }}
   roles:
     {{- .Values.project.roles | toYaml | nindent 4 }}
   {{- else }}
@@ -43,15 +44,15 @@ spec:
     namespace: bootstrap
   {{- with $sP := .Values.cloudDeploy.syncPolicy | default .Values.syncPolicy }}
   syncPolicy:
-    {{- with $auto := $sP.automated | default .Values.syncPolicy.automated }}
+    {{- with $auto := $sP.automated }}
     automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
       prune: {{ $auto.prune }} # Specifies if resources should be pruned during auto-syncing ( false by default ).
       selfHeal: {{ $auto.selfHeal }} # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
       allowEmpty: {{ $auto.allowEmpty }} # Allows deleting all application resources during automatic syncing ( false by default ).
     {{- end }}
-    {{- if ne (len (default .Values.syncOptions $sP.syncOptions)) 0 }}
+    {{- if ne (len $sP.syncOptions) 0 }}
     syncOptions:
-      {{- $sP.syncOptions | default .Values.syncOptions | toYaml | nindent 6 }}
+      {{- $sP.syncOptions  | toYaml | nindent 6 }}
     {{- else }}
     syncOptions: []
     {{- end }}
@@ -77,16 +78,17 @@ spec:
     namespace: bootstrap
   {{- with $sP := .Values.platform.syncPolicy | default .Values.syncPolicy }}
   syncPolicy:
-    {{- with $auto := $sP.automated | default .Values.syncPolicy.automated }}
+    {{- with $auto := $sP.automated }}
     automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
       prune: {{ $auto.prune }} # Specifies if resources should be pruned during auto-syncing ( false by default ).
       selfHeal: {{ $auto.selfHeal }} # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
       allowEmpty: {{ $auto.allowEmpty }} # Allows deleting all application resources during automatic syncing ( false by default ).
     {{- end }}
-    {{- if ne (len (default .Values.syncOptions $sP.syncOptions)) 0 }}
+    {{- if ne (len $sP.syncOptions) 0 }}
     syncOptions:
-      {{- $sP.syncOptions | default .Values.syncOptions | toYaml | nindent 6 }}
+      {{- $sP.syncOptions | toYaml | nindent 6 }}
     {{- else }}
     syncOptions: []
     {{- end }}
   {{- end }}
+{{- end }}
