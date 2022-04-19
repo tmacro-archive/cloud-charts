@@ -1,31 +1,9 @@
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: {{ .Values.argo.namespace }}
-  labels:
-    {{- .Values.argo.namespaceLabels | default (dict) | toYaml | nindent 4 }}
-    {{- include "bootstrap.helmLabels" . | nindent 4 }}
----
-apiVersion: helm.cattle.io/v1
-kind: HelmChart
-metadata:
-  name: argocd
-  namespace: kube-system
-  labels:
-    {{- include "bootstrap.helmLabels" . | nindent 4 }}
-spec:
-  chart: {{ tpl .Values.argo.chartUrl (merge (dict "Template" .Template) .Values.argo) }}
-  targetNamespace: {{ .Values.argo.namespace }}
-  valuesContent: |-
-    {{- tpl .Values.argo.valuesTpl (merge (dict "Template" .Template) .Values.argo) | nindent 4 }}
 {{- if .Values.argo.ingress.enabled }}
 ---
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: argocd-server
-  namespace: {{ .Values.argo.namespace }}
   labels:
     {{- include "bootstrap.helmLabels" . | nindent 4 }}
 spec:

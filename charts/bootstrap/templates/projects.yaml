@@ -1,0 +1,92 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: bootstrap
+  labels:
+    {{- include "bootstrap.helmLabels" $ | nindent 4 }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: "Manages basic cluster deployment"
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: bootstrap
+      server: https://kubernetes.default.svc
+  clusterResourceBlacklist: []
+  namespaceResourceBlacklist: []
+  {{- if ne (len (default list .Values.project.roles)) 0 }}
+  roles:
+    {{- .Values.project.roles | toYaml | nindent 4 }}
+  {{- else }}
+  roles: []
+  {{- end }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cloud-deploy
+  labels:
+    {{- include "bootstrap.helmLabels" $ | nindent 4 }}
+spec:
+  project: bootstrap
+  source:
+    repoURL: '{{ .Values.cloudDeploy.repoUrl }}'
+    targetRevision: {{ .Values.cloudDeploy.targetRevision }}
+    path: '{{ .Values.cloudDeploy.path }}'
+    helm:
+      values: |
+        {{- .Values.cloudDeploy.values | toYaml | nindent 8 }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: bootstrap
+  {{- with $sP := .Values.cloudDeploy.syncPolicy | default $defaults.syncPolicy }}
+  syncPolicy:
+    {{- with $auto := $sP.automated | default $defaults.syncPolicy.automated }}
+    automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
+      prune: {{ $auto.prune }} # Specifies if resources should be pruned during auto-syncing ( false by default ).
+      selfHeal: {{ $auto.selfHeal }} # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
+      allowEmpty: {{ $auto.allowEmpty }} # Allows deleting all application resources during automatic syncing ( false by default ).
+    {{- end }}
+    {{- if ne (len (default $defaults.syncOptions $sP.syncOptions)) 0 }}
+    syncOptions:
+      {{- $sP.syncOptions | default $defaults.syncOptions | toYaml | nindent 6 }}
+    {{- else }}
+    syncOptions: []
+    {{- end }}
+  {{- end }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform
+  labels:
+    {{- include "bootstrap.helmLabels" $ | nindent 4 }}
+spec:
+  project: bootstrap
+  source:
+    repoURL: '{{ .Values.platform.repoUrl }}'
+    targetRevision: {{ .Values.platform.targetRevision }}
+    path: '{{ .Values.platform.path }}'
+    helm:
+      values: |
+        {{- .Values.platform.values | toYaml | nindent 8 }}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: bootstrap
+  {{- with $sP := .Values.platform.syncPolicy | default $defaults.syncPolicy }}
+  syncPolicy:
+    {{- with $auto := $sP.automated | default $defaults.syncPolicy.automated }}
+    automated: # automated sync by default retries failed attempts 5 times with following delays between attempts ( 5s, 10s, 20s, 40s, 80s ); retry controlled using `retry` field.
+      prune: {{ $auto.prune }} # Specifies if resources should be pruned during auto-syncing ( false by default ).
+      selfHeal: {{ $auto.selfHeal }} # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
+      allowEmpty: {{ $auto.allowEmpty }} # Allows deleting all application resources during automatic syncing ( false by default ).
+    {{- end }}
+    {{- if ne (len (default $defaults.syncOptions $sP.syncOptions)) 0 }}
+    syncOptions:
+      {{- $sP.syncOptions | default $defaults.syncOptions | toYaml | nindent 6 }}
+    {{- else }}
+    syncOptions: []
+    {{- end }}
+  {{- end }}
