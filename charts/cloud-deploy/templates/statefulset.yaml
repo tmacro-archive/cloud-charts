@@ -26,6 +26,12 @@ spec:
           - name: http
             containerPort: 80
             protocol: TCP
+        env:
+          - name: CLOUDCONF_VERSION
+            valueFrom:
+              configMapKeyRef:
+                name: cloud-deploy-version
+                key: cloudconf_version
         # livenessProbe:
         #   httpGet:
         #     path: /
@@ -38,11 +44,11 @@ spec:
           {{- toYaml .Values.resources | nindent 10 }}
         volumeMounts:
           - name: inventory-secret
-            mountPath: /opt/env/inventory
+            mountPath: /opt/provision/inventory
           - name: deploy-secret
-            mountPath: /opt/env/deploy_key
+            mountPath: /opt/provision/deploy_key
           - name: config-secret
-            mountPath: /opt/env/gpg_key
+            mountPath: /opt/provision/gpg_key
       volumes:
         - name: inventory-secret
           secret:
