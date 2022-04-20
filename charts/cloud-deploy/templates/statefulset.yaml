@@ -27,6 +27,10 @@ spec:
             containerPort: 3000
             protocol: TCP
         env:
+          - name: ENV_DEPLOY_KEY_PATH
+            value: /opt/secret/deploy_key/deploy_key
+          - name: ENV_GPG_KEY_PATH
+            value: /opt/secret/gpg_key/marvin_at_cloudconf
           - name: CLOUDCONF_VERSION
             valueFrom:
               configMapKeyRef:
@@ -44,11 +48,11 @@ spec:
           {{- toYaml .Values.resources | nindent 10 }}
         volumeMounts:
           - name: inventory-secret
-            mountPath: /opt/provision/inventory
+            mountPath: /opt/secret/inventory
           - name: deploy-secret
-            mountPath: /opt/provision/deploy_key
+            mountPath: /opt/secret/deploy_key
           - name: config-secret
-            mountPath: /opt/provision/gpg_key
+            mountPath: /opt/secret/gpg_key
       volumes:
         - name: inventory-secret
           secret:
