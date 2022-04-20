@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "cloud-deploy.fullname" . }}
+  labels:
+    {{- include "cloud-deploy.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "cloud-deploy.selectorLabels" . | nindent 6 }}
+  serviceName: {{ include "cloud-deploy.fullname" . }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        {{- include "cloud-deploy.labels" . | nindent 8 }}
+    spec:
+      terminationGracePeriodSeconds: 120
+      containers:
+      - name: {{ .Chart.Name }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 10 }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+          - name: http
+            containerPort: 80
+            protocol: TCP
+        # livenessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: http
+        # readinessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: http
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+        volumeMounts:
+          - name: inventory-secret
+            mountPath: /opt/env/inventory
+          - name: deploy-secret
+            mountPath: /opt/env/deploy_key
+          - name: config-secret
+            mountPath: /opt/env/gpg_key
+      volumes:
+        - name: inventory-secret
+          secret:
+            secretName: {{ .Values.existingSecrets.inventory }}
+        - name: deploy-secret
+          secret:
+            secretName: {{ .Values.existingSecrets.deploy_key }}
+        - name: config-secret
+          secret:
+            secretName: {{ .Values.existingSecrets.cloudconf }}

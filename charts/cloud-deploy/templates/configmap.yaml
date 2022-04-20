@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cloud-deploy-version
+  labels:
+    {{- include "cloud-deploy.labels" . | nindent 4 }}
+data:
+  version: {{ .Chart.AppVersion }}
+  release: {{ .Values.release }}
+  cloudconf_version: {{ .Values.cloudconf_version }}
+  bootstrap_version: {{ .Values.bootstrap_version }}
