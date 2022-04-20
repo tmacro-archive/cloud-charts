@@ -57,9 +57,12 @@ spec:
         - name: inventory-secret
           secret:
             secretName: {{ .Values.existingSecrets.inventory }}
+            defaultMode: 256
         - name: deploy-secret
           secret:
             secretName: {{ .Values.existingSecrets.deploy_key }}
+            defaultMode: 256
         - name: config-secret
           secret:
             secretName: {{ .Values.existingSecrets.cloudconf }}
+            defaultMode: 256
