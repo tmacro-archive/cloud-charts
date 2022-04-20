@@ -30,6 +30,17 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/cert-manager-0.1.0/cert-manager-0.1.0.tgz
     version: 0.1.0
+  cloud-deploy:
+  - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2022-04-20T17:59:43.227421825Z"
+    description: A Helm chart for Kubernetes
+    digest: 8629572e5c4ddff22db109b669cbc6a47edb8eac10beee74fedf4fbd5751fc89
+    name: cloud-deploy
+    type: application
+    urls:
+    - https://github.com/tmacro/cloud-charts/releases/download/cloud-deploy-0.1.0/cloud-deploy-0.1.0.tgz
+    version: 0.1.0
   nfs-provisioner:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -106,4 +117,4 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/traefik-dashboard-1.0.0/traefik-dashboard-1.0.0.tgz
     version: 1.0.0
-generated: "2022-02-13T02:08:13.654614312Z"
+generated: "2022-04-20T17:59:43.227429927Z"
