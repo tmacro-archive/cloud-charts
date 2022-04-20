@@ -17,6 +17,12 @@ spec:
       server: https://kubernetes.default.svc
   clusterResourceBlacklist: []
   namespaceResourceBlacklist: []
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
   {{- if ne (len (default list (default dict .Values.project).roles)) 0 }}
   roles:
     {{- .Values.project.roles | toYaml | nindent 4 }}
