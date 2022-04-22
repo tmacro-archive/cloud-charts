@@ -68,6 +68,17 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/nfs-provisioner-0.1.0/nfs-provisioner-0.1.0.tgz
     version: 0.1.0
+  node-services:
+  - apiVersion: v2
+    appVersion: "9.19"
+    created: "2022-04-22T23:28:36.758370619Z"
+    description: A Helm chart for Kubernetes
+    digest: e3adb61941de105665ce241821922f5ef1dad97052156d2581617d7acbda7167
+    name: node-services
+    type: application
+    urls:
+    - https://github.com/tmacro/cloud-charts/releases/download/node-services-0.1.0/node-services-0.1.0.tgz
+    version: 0.1.0
   platform:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -117,4 +128,4 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/traefik-dashboard-1.0.0/traefik-dashboard-1.0.0.tgz
     version: 1.0.0
-generated: "2022-04-20T17:59:43.227429927Z"
+generated: "2022-04-22T23:28:36.758380519Z"
