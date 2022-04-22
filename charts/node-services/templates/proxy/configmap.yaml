@@ -1,0 +1,10 @@
+{{- if .Values.proxy.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "node-services-proxy.fullname" . }}
+  labels:
+    {{- include "node-services.labels" . | nindent 4 }}
+data: {}
+{{- end }}

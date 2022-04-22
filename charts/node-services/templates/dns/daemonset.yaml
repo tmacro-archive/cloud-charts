@@ -1,0 +1,90 @@
+{{- if .Values.dns.enabled }}
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "node-services-dns.fullname" . }}
+  labels:
+    {{- include "node-services.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "node-services-dns.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "node-services-dns.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.dns.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: bind
+          image: "{{ .Values.dns.image.repository }}:{{ .Values.dns.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.dns.image.pullPolicy }}
+          command:
+            - sh
+            - -c
+            - >
+              mkdir -p /etc/named/zones
+              && /usr/sbin/named -g -c /etc/named/named.conf -u bind
+          ports:
+            - containerPort: 5053
+              hostPort: 5053
+              protocol: TCP
+            - containerPort: 5053
+              hostPort: 5053
+              protocol: UDP
+          env:
+            - name: IFACE_IP_ADDR
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+          livenessProbe:
+            tcpSocket:
+              port: 5053
+          readinessProbe:
+            tcpSocket:
+              port: 5053
+          volumeMounts:
+            - name: {{ .Release.Name }}-named-conf
+              mountPath: /etc/named/named.conf
+              subPath: named.conf
+              readOnly: true
+            {{- if .Values.dns.customZonesEnabled }}
+            - name: {{ .Release.Name }}-named-zones
+              mountPath: /zones
+              readOnly: true
+            {{- end }}
+          resources:
+            {{- toYaml .Values.dns.resources | nindent 12 }}
+      volumes:
+        - name: {{ .Release.Name }}-named-conf
+          configMap:
+            name: {{ include "node-services-dns.fullname" . }}-conf
+            items:
+              - key: named.conf
+                path: named.conf
+      {{- if .Values.dns.customZonesEnabled }}
+        - name: {{ .Release.Name }}-named-zones
+          configMap:
+            name: {{ include "node-services-dns.fullname" . }}-zones
+      {{- end }}
+      terminationGracePeriodSeconds: 30
+      {{- with .Values.dns.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.dns.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.dns.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}

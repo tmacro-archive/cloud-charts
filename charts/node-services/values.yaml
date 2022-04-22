@@ -1,0 +1,84 @@
+# Default values for node-services.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+dns:
+  enabled: True
+  image:
+    repository: internetsystemsconsortium/bind9
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "9.19"
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  podAnnotations: {}
+
+  resources:
+    requests:
+        cpu: 200m
+        memory: 256Mi
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  dnssec_validation: true
+  ipv6_enabled: false
+  querylog: false
+  customZonesEnabled: false
+  zones: {}
+    # named.conf.local: |
+      # zone "example.org" in {
+      #    type master;
+      #    file "/etc/bind/zones/example.org.zone";
+      #    notify no;
+      # };
+    # example.org.zone: |
+    #   $TTL 2h                             ; default TTL
+    #   @ IN SOA dns.example.org.     dnsmaster.example.org. (
+    #                       2022042000      ; serial
+    #                       24h             ; refresh
+    #                       2h              ; retry
+    #                       1000h           ; expire
+    #                       2d )            ; minimum
+
+proxy:
+  enabled: True
+  image:
+    repository: haproxy
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "2.5.5-alpine"
+
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+
+  podAnnotations: {}
+
+  resources:
+    requests:
+      cpu: 200m
+      memory: 256Mi
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}

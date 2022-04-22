@@ -1,0 +1,46 @@
+{{- if .Values.dns.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "node-services-dns.fullname" . }}-conf
+  labels:
+    {{- include "node-services.labels" . | nindent 4 }}
+data:
+  named.conf: |
+    options {
+      directory "/var/cache/bind";
+      {{ if .Values.dns.dnssec_validation -}}
+      dnssec-validation yes;
+      {{- else -}}
+      dnssec-validation no;
+      {{- end }}
+      listen-on port 5053 { any; };
+      {{ if .Values.dns.ipv6_enabled -}}
+      listen-on-v6 5053 { any; };
+      {{- else -}}
+      listen-on-v6 { none; };
+      {{- end }}
+      recursion no;
+      allow-query { any; };
+      {{ if .Values.dns.querylog -}}
+      querylog yes;
+      {{- else -}}
+      querylog no;
+      {{- end }}
+    };
+    // use the default zones
+    include "/etc/bind/named.conf.default-zones";
+{{- if .Values.dns.customZonesEnabled }}
+    include "/zones/named.conf.local";
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "node-services-dns.fullname" . }}-zones
+  labels:
+    {{- include "node-services.labels" . | nindent 4 }}
+data:
+  {{- toYaml .Values.dns.zones | nindent 2 }}
+{{- end }}
+{{- end }}

@@ -1,0 +1,52 @@
+{{- if .Values.proxy.enabled }}
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{ include "node-services-proxy.fullname" . }}
+  labels:
+    {{- include "node-services.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "node-services-proxy.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "node-services-proxy.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.proxy.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: bind
+          image: "{{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.proxy.image.pullPolicy }}
+          ports:
+            - containerPort: 53
+              hostPort: 5053
+          env:
+            - name: IFACE_IP_ADDR
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+          resources:
+            {{- toYaml .Values.proxy.resources | nindent 12 }}
+      terminationGracePeriodSeconds: 30
+      {{- with .Values.proxy.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.proxy.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.proxy.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+{{- end }}
