@@ -3,6 +3,9 @@ fullnameOverride: ""
 
 release: Crouching Tiger
 
+argo-cd:
+  fullnameOverride: argocd
+
 argo:
   enabled: True
   namespaceLabels:
