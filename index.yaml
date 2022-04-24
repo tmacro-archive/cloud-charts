@@ -162,6 +162,16 @@ entries:
   platform:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-04-24T20:37:04.654085119Z"
+    description: A Helm chart for Kubernetes
+    digest: 45d013edf9d1862078f1dddd04e190a9670d399b14bdc6efaf61776a562b1fdd
+    name: platform
+    type: application
+    urls:
+    - https://github.com/tmacro/cloud-charts/releases/download/platform-0.1.2/platform-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-04-24T20:15:46.289879394Z"
     description: A Helm chart for Kubernetes
     digest: 1e0e20b99bebf3b13114709d2411b1bbe38ef17d08609ba2170660a6e69448bf
@@ -218,4 +228,4 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/traefik-dashboard-1.0.0/traefik-dashboard-1.0.0.tgz
     version: 1.0.0
-generated: "2022-04-24T20:36:08.41403935Z"
+generated: "2022-04-24T20:37:04.654358029Z"
