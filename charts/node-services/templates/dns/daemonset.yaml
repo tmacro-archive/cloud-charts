@@ -66,12 +66,17 @@ spec:
           image: "{{ .Values.dns.dnsmasq.image.repository }}:{{ .Values.dns.dnsmasq.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.dns.dnsmasq.image.pullPolicy }}
           ports:
-            - containerPort: 5153
+            - containerPort: 53
               hostPort: 53
               protocol: TCP
-            - containerPort: 5153
+            - containerPort: 53
               hostPort: 53
               protocol: UDP
+          env:
+            - name: BIND_ADDRESS
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
           livenessProbe:
             tcpSocket:
               port: 5053
