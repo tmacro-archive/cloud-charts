@@ -64,7 +64,53 @@ application_defaults:
       - PrunePropagationPolicy=foreground
       - PruneLast=true
   values: {}
-applications: {}
+
+applications:
+  cert-manager:
+    project: platform-services
+    source:
+      repoUrl: https://github.com/tmacro/cloud-charts.git
+      path: 'charts/cert-manager'
+      targetRevision: cert-manager-0.1.0
+    destination:
+      namespace: cert-manager
+    values: {}
+  authentication:
+    project: platform-services
+    source:
+      repoUrl: https://github.com/tmacro/cloud-charts.git
+      path: 'charts/sso'
+      targetRevision: sso-0.1.0
+    destination:
+      namespace: platform
+    values: {}
+  nfs-provisioner:
+    project: platform-services
+    source:
+      repoUrl: https://github.com/tmacro/cloud-charts.git
+      path: 'charts/nfs-provisioner'
+      targetRevision: nfs-provisioner-0.1.0
+    destination:
+      namespace: platform
+    values: {}
+  traefik-dashboard:
+    project: platform-services
+    source:
+      repoUrl: https://github.com/tmacro/cloud-charts.git
+      path: 'charts/traefik-dashboard'
+      targetRevision: traefik-dashboard-0.1.0
+    destination:
+      namespace: kube-system
+    values: {}
+  node-services:
+    project: platform-services
+    source:
+      repoUrl: https://github.com/tmacro/cloud-charts.git
+      path: 'charts/node-services'
+      targetRevision: node-services-0.3.0
+    destination:
+      namespace: platform
+    values: {}
 
 namespaces:
   platform:
