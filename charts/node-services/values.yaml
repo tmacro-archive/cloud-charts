@@ -5,6 +5,7 @@
 replicaCount: 1
 
 dns:
+  enabled: True
   customZonesEnabled: false
   zones: {}
   bind:
