@@ -102,15 +102,6 @@ applications:
     destination:
       namespace: kube-system
     values: {}
-  node-services:
-    project: platform-services
-    source:
-      repoUrl: https://github.com/tmacro/cloud-charts.git
-      path: 'charts/node-services'
-      targetRevision: node-services-0.3.2
-    destination:
-      namespace: platform
-    values: {}
 
 namespaces:
   platform:
