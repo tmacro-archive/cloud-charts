@@ -2,13 +2,13 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: {{ include "node-services-dns.fullname" . }}
+  name: {{ include "node-services.bind.fullname" . }}
   labels:
     {{- include "node-services.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      {{- include "node-services-dns.selectorLabels" . | nindent 6 }}
+      {{- include "node-services.bind.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -16,16 +16,16 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "node-services-dns.selectorLabels" . | nindent 8 }}
+        {{- include "node-services.bind.selectorLabels" . | nindent 8 }}
     spec:
-      {{- with .Values.dns.imagePullSecrets }}
+      {{- with .Values.dns.bind.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       containers:
         - name: bind
-          image: "{{ .Values.dns.image.repository }}:{{ .Values.dns.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.dns.image.pullPolicy }}
+          image: "{{ .Values.dns.bind.image.repository }}:{{ .Values.dns.bind.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.dns.bind.image.pullPolicy }}
           command:
             - sh
             - -c
@@ -61,18 +61,51 @@ spec:
               readOnly: true
             {{- end }}
           resources:
-            {{- toYaml .Values.dns.resources | nindent 12 }}
+            {{- toYaml .Values.dns.bind.resources | nindent 12 }}
+        - name: dnsmasq
+          image: "{{ .Values.dns.dnsmasq.image.repository }}:{{ .Values.dns.dnsmasq.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.dns.dnsmasq.image.pullPolicy }}
+          ports:
+            - containerPort: 5153
+              hostPort: 53
+              protocol: TCP
+            - containerPort: 5153
+              hostPort: 53
+              protocol: UDP
+          livenessProbe:
+            tcpSocket:
+              port: 5053
+          readinessProbe:
+            tcpSocket:
+              port: 5053
+          volumeMounts:
+            - name: {{ .Release.Name }}-dnsmasq-conf
+              mountPath: /etc/dnsmasq.d/
+              readOnly: true
+            - name: {{ .Release.Name }}-resolv-conf
+              mountPath: /etc/
+              subPath: noderesolv.conf
+              readOnly: true
       volumes:
         - name: {{ .Release.Name }}-named-conf
           configMap:
-            name: {{ include "node-services-dns.fullname" . }}-conf
+            name: {{ include "node-services.bind.fullname" . }}-conf
             items:
               - key: named.conf
                 path: named.conf
+        - name: {{ .Release.Name }}-dnsmasq-conf
+          configMap:
+            name: {{ include "node-services.dnsmasq.fullname" . }}-conf
+        - name: {{ .Release.Name }}-resolv-conf
+          configMap:
+            name: {{ include "node-services.dnsmasq.fullname" . }}-resolv
+            items:
+              - key: noderesolv.conf
+                path: noderesolv.conf
       {{- if .Values.dns.customZonesEnabled }}
         - name: {{ .Release.Name }}-named-zones
           configMap:
-            name: {{ include "node-services-dns.fullname" . }}-zones
+            name: {{ include "node-services.bind.fullname" . }}-zones
       {{- end }}
       terminationGracePeriodSeconds: 30
       {{- with .Values.dns.nodeSelector }}

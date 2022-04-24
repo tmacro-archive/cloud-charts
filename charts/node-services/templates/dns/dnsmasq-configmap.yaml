@@ -1,0 +1,25 @@
+{{- if .Values.dns.dnsmasq.enabled }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "node-services.dnsmasq.fullname" . }}-resolv
+  labels:
+    {{- include "node-services.labels" . | nindent 4 }}
+data:
+  noderesolv.conf: {{ .Values.dns.dnsmasq.resolvConf | toJson }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "node-services.dnsmasq.fullname" . }}-conf
+  labels:
+    {{- include "node-services.labels" . | nindent 4 }}
+data:
+  upstream.conf: |
+    no-resolv
+    resolv-file=/etc/noderesolv.conf
+  {{- if .Values.dns.dnsmasq.extraConfig -}}
+  {{- toYaml .Values.dns.dnsmasq.extraConfig | nindent 2 }}
+  {{- end }}
+{{- end }}

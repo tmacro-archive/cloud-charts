@@ -23,42 +23,6 @@ If release name contains chart name it will be used as a full name.
 {{- end }}
 {{- end }}
 
-{{- define "node-services-dns.name" -}}
-{{- include "node-services.name" . }}{{ default "dns" .Values.dnsNameOverride | trunc 63 | trimSuffix "-" }}
-{{- end }}
-
-{{- define "node-services-dns.fullname" -}}
-{{- if .Values.dnsFullNameOverride }}
-{{- .Values.dnsFullNameOverride | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- $name := default "dns" .Values.dnsNameOverride }}
-{{- $chartName := default .Chart.Name .Values.nameOverride }}
-{{- if contains $chartName .Release.Name }}
-{{- .Release.Name | trunc 63 | trimSuffix "-" }}-{{ $name }}
-{{- else }}
-{{- printf "%s-%s-%s" .Release.Name $chartName $name | trunc 63 | trimSuffix "-" }}
-{{- end }}
-{{- end }}
-{{- end }}
-
-{{- define "node-services-proxy.name" -}}
-{{- include "node-services.name" . }}{{ default "proxy" .Values.proxyNameOverride | trunc 63 | trimSuffix "-" }}
-{{- end }}
-
-{{- define "node-services-proxy.fullname" -}}
-{{- if .Values.proxyFullNameOverride }}
-{{- .Values.proxyFullNameOverride | trunc 63 | trimSuffix "-" }}
-{{- else }}
-{{- $name := default "proxy" .Values.proxyNameOverride }}
-{{- $chartName := default .Chart.Name .Values.nameOverride }}
-{{- if contains $chartName .Release.Name }}
-{{- .Release.Name | trunc 63 | trimSuffix "-" }}-{{ $name }}
-{{- else }}
-{{- printf "%s-%s-%s" .Release.Name $chartName $name | trunc 63 | trimSuffix "-" }}
-{{- end }}
-{{- end }}
-{{- end }}
-
 {{/*
 Create chart name and version as used by the chart label.
 */}}
@@ -78,31 +42,73 @@ app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
-{{/*
-Selector labels
-*/}}
 {{- define "node-services.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "node-services.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{- define "node-services-dns.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "node-services-dns.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+{{/*
+Name for haproxy
+*/}}
+{{- define "node-services.proxy.name" -}}
+{{- include "node-services.name" . }}-haproxy
 {{- end }}
 
-{{- define "node-services-proxy.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "node-services-proxy.name" . }}
+{{/*
+FQDN for haproxy
+*/}}
+{{- define "node-services.proxy.fullname" -}}
+{{- include "node-services.fullname" . }}-haproxy
+{{- end }}
+
+{{/*
+Selector labels for haproxy
+*/}}
+{{- define "node-services.proxy.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "node-services.proxy.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-Create the name of the service account to use
+Name for bind
 */}}
-{{- define "node-services.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "node-services.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
+{{- define "node-services.bind.name" -}}
+{{- include "node-services.name" . }}-bind
 {{- end }}
+
+{{/*
+FQDN for bind
+*/}}
+{{- define "node-services.bind.fullname" -}}
+{{- include "node-services.fullname" . }}-bind
+{{- end }}
+
+{{/*
+Selector labels for bind
+*/}}
+{{- define "node-services.bind.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "node-services.bind.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Name for dnsmasq
+*/}}
+{{- define "node-services.dnsmasq.name" -}}
+{{- include "node-services.name" . }}-dnsmasq
+{{- end }}
+
+{{/*
+FQDN for dnsmasq
+*/}}
+{{- define "node-services.dnsmasq.fullname" -}}
+{{- include "node-services.fullname" . }}-dnsmasq
+{{- end }}
+
+{{/*
+Selector labels for dnsmasq
+*/}}
+{{- define "node-services.dnsmasq.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "node-services.dnsmasq.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

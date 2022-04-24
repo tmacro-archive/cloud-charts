@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "node-services-proxy.fullname" . }}
+  name: {{ include "node-services.proxy.fullname" . }}
   labels:
     {{- include "node-services.labels" . | nindent 4 }}
 data: {}

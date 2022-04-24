@@ -2,13 +2,13 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: {{ include "node-services-proxy.fullname" . }}
+  name: {{ include "node-services.proxy.fullname" . }}
   labels:
     {{- include "node-services.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      {{- include "node-services-proxy.selectorLabels" . | nindent 6 }}
+      {{- include "node-services.proxy.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -16,7 +16,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "node-services-proxy.selectorLabels" . | nindent 8 }}
+        {{- include "node-services.proxy.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.proxy.imagePullSecrets }}
       imagePullSecrets:

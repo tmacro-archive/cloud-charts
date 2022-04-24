@@ -1,29 +1,29 @@
-{{- if .Values.dns.enabled }}
+{{- if .Values.dns.bind.enabled }}
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "node-services-dns.fullname" . }}-conf
+  name: {{ include "node-services.bind.fullname" . }}-conf
   labels:
     {{- include "node-services.labels" . | nindent 4 }}
 data:
   named.conf: |
     options {
       directory "/var/cache/bind";
-      {{ if .Values.dns.dnssec_validation -}}
+      {{ if .Values.dns.bind.dnssec_validation -}}
       dnssec-validation yes;
       {{- else -}}
       dnssec-validation no;
       {{- end }}
       listen-on port 5053 { any; };
-      {{ if .Values.dns.ipv6_enabled -}}
+      {{ if .Values.dns.bind.ipv6_enabled -}}
       listen-on-v6 5053 { any; };
       {{- else -}}
       listen-on-v6 { none; };
       {{- end }}
       recursion no;
       allow-query { any; };
-      {{ if .Values.dns.querylog -}}
+      {{ if .Values.dns.bind.querylog -}}
       querylog yes;
       {{- else -}}
       querylog no;
@@ -37,7 +37,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "node-services-dns.fullname" . }}-zones
+  name: {{ include "node-services.bind.fullname" . }}-zones
   labels:
     {{- include "node-services.labels" . | nindent 4 }}
 data:

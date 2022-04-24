@@ -5,41 +5,84 @@
 replicaCount: 1
 
 dns:
-  enabled: True
-  image:
-    repository: internetsystemsconsortium/bind9
-    pullPolicy: Always
-    # Overrides the image tag whose default is the chart appVersion.
-    tag: "9.19"
-
-  imagePullSecrets: []
-  nameOverride: ""
-  fullnameOverride: ""
-
-  podAnnotations: {}
-
-  resources:
-    requests:
-        cpu: 200m
-        memory: 256Mi
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
-
-  dnssec_validation: true
-  ipv6_enabled: false
-  querylog: false
   customZonesEnabled: false
   zones: {}
+  bind:
+    enabled: True
+    image:
+      repository: internetsystemsconsortium/bind9
+      pullPolicy: Always
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: "9.19"
+
+    imagePullSecrets: []
+    nameOverride: ""
+    fullnameOverride: ""
+
+    podAnnotations: {}
+
+    resources:
+      requests:
+        cpu: 200m
+        memory: 256Mi
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+    nodeSelector: {}
+
+    tolerations: []
+
+    affinity: {}
+
+    dnssec_validation: true
+    ipv6_enabled: false
+    querylog: false
+
+  dnsmasq:
+    enabled: True
+    image:
+      repository: tmacro/dnsmasq
+      pullPolicy: IfNotPresent
+      # Overrides the image tag whose default is the chart appVersion.
+      tag: "1.0.0"
+
+    imagePullSecrets: []
+    nameOverride: ""
+    fullnameOverride: ""
+
+    podAnnotations: {}
+
+    resources:
+      requests:
+        cpu: 200m
+        memory: 256Mi
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+    nodeSelector: {}
+
+    tolerations: []
+
+    affinity: {}
+
+    resolvConf: |
+      nameserver 1.1.1.1
+      nameserver 9.9.9.9
+      nameserver 8.8.8.8
+
+    extraConfig: false
+    # extraConfig:
+    #   example.conf: |
+    #     server=/example.org/1.2.3.4
+
     # named.conf.local: |
       # zone "example.org" in {
       #    type master;
