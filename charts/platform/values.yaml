@@ -107,7 +107,7 @@ applications:
     source:
       repoUrl: https://github.com/tmacro/cloud-charts.git
       path: 'charts/node-services'
-      targetRevision: node-services-0.3.0
+      targetRevision: node-services-0.3.1
     destination:
       namespace: platform
     values: {}
