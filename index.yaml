@@ -32,6 +32,16 @@ entries:
     version: 0.1.0
   cloud-deploy:
   - apiVersion: v2
+    appVersion: 0.1.4
+    created: "2022-04-24T18:13:19.949404319Z"
+    description: Runs the deployment container for the tmacs.cloud stack
+    digest: 5f85a201405e08373c1ff49814f58997d23cadc436a0029d4cf5a71910806a37
+    name: cloud-deploy
+    type: application
+    urls:
+    - https://github.com/tmacro/cloud-charts/releases/download/cloud-deploy-0.1.1/cloud-deploy-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     appVersion: 0.1.0
     created: "2022-04-20T17:59:43.227421825Z"
     description: A Helm chart for Kubernetes
@@ -148,4 +158,4 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/traefik-dashboard-1.0.0/traefik-dashboard-1.0.0.tgz
     version: 1.0.0
-generated: "2022-04-24T18:11:01.797417245Z"
+generated: "2022-04-24T18:13:19.949424819Z"
