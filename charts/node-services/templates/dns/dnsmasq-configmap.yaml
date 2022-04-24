@@ -19,6 +19,7 @@ data:
   upstream.conf: |
     no-resolv
     resolv-file=/etc/noderesolv.conf
+    port 5153
   {{- if .Values.dns.dnsmasq.extraConfig -}}
   {{- toYaml .Values.dns.dnsmasq.extraConfig | nindent 2 }}
   {{- end }}

@@ -66,10 +66,10 @@ spec:
           image: "{{ .Values.dns.dnsmasq.image.repository }}:{{ .Values.dns.dnsmasq.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.dns.dnsmasq.image.pullPolicy }}
           ports:
-            - containerPort: 53
+            - containerPort: 5513
               hostPort: 53
               protocol: TCP
-            - containerPort: 53
+            - containerPort: 5153
               hostPort: 53
               protocol: UDP
           env:
