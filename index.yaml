@@ -71,6 +71,16 @@ entries:
   node-services:
   - apiVersion: v2
     appVersion: "9.19"
+    created: "2022-04-24T18:11:01.797350741Z"
+    description: A Helm chart for Kubernetes
+    digest: 37403f44bb3116254cb48972dce9ead317ea4e78390df05ac78d44a901f26041
+    name: node-services
+    type: application
+    urls:
+    - https://github.com/tmacro/cloud-charts/releases/download/node-services-0.2.1/node-services-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: "9.19"
     created: "2022-04-24T17:39:12.298317047Z"
     description: A Helm chart for Kubernetes
     digest: ef161395f25b33f911529723a770eb33a1514de6d6d237af77d5f74634f16caa
@@ -138,4 +148,4 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/traefik-dashboard-1.0.0/traefik-dashboard-1.0.0.tgz
     version: 1.0.0
-generated: "2022-04-24T17:39:12.298336148Z"
+generated: "2022-04-24T18:11:01.797417245Z"
