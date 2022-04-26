@@ -203,6 +203,32 @@ entries:
   sso:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-04-26T18:35:43.474849051Z"
+    dependencies:
+    - alias: authelia-postgres
+      condition: authelia-postgres.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.13.8
+    - alias: authelia-redis
+      condition: authelia-redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.5.5
+    - alias: authelia
+      condition: authelia.enabled
+      name: authelia
+      repository: https://charts.authelia.com
+      version: 0.6.3
+    description: A Helm chart for Kubernetes
+    digest: 05666532f151662e624e1132808c3967c236d35a9dcd48cf98cda17a4e3bb77d
+    name: sso
+    type: application
+    urls:
+    - https://github.com/tmacro/cloud-charts/releases/download/sso-0.3.0/sso-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-04-26T06:11:11.806296906Z"
     dependencies:
     - alias: authelia-postgres
@@ -290,4 +316,4 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/traefik-dashboard-1.0.0/traefik-dashboard-1.0.0.tgz
     version: 1.0.0
-generated: "2022-04-26T06:11:11.806359406Z"
+generated: "2022-04-26T18:35:43.474897652Z"
