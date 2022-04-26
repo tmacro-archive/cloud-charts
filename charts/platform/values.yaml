@@ -80,7 +80,7 @@ applications:
     source:
       repoUrl: https://github.com/tmacro/cloud-charts.git
       path: 'charts/sso'
-      targetRevision: sso-0.2.1
+      targetRevision: sso-0.3.0
     destination:
       namespace: platform
     values: {}
@@ -98,7 +98,7 @@ applications:
     source:
       repoUrl: https://github.com/tmacro/cloud-charts.git
       path: 'charts/traefik-dashboard'
-      targetRevision: traefik-dashboard-0.1.0
+      targetRevision: traefik-dashboard-0.2.0
     destination:
       namespace: kube-system
     values: {}
