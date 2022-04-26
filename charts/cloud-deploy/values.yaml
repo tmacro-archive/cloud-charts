@@ -55,7 +55,7 @@ affinity: {}
 
 secrets: {}
 
-cloudconf_version: v0.0.10
+cloudconf_version: v0.0.11
 bootstrap_version: HEAD
 existingSecrets:
   cloudconf: env-config-key
