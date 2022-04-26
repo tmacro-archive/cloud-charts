@@ -80,7 +80,7 @@ applications:
     source:
       repoUrl: https://github.com/tmacro/cloud-charts.git
       path: 'charts/sso'
-      targetRevision: sso-0.3.1
+      targetRevision: sso-0.3.2
     destination:
       namespace: platform
     values: {}
