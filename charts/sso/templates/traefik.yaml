@@ -1,0 +1,29 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: traefik-https-redirect
+  labels:
+    {{- include "sso.helmLabels" . | nindent 4 }}
+spec:
+  redirectScheme:
+    scheme: https
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+  labels:
+    {{- include "sso.helmLabels" . | nindent 4 }}
+spec:
+  valuesContent: |-
+    providers:
+      kubernetesCRD:
+        allowCrossNamespace: True
+    additionalArguments:
+      - --entrypoints.web.http.middlewares=platform-traefik-https-redirect@kubernetescrd
+      - --entrypoints.web-secure.http.middlewares=platform-chain-authelia-auth@kubernetescrd
+    {{- if gt (len (default (list) .Values.traefik.additionalArgs)) 0 }}
+      {{- .Values.traefik.additionalArgs | toYaml | nindent 6 }}
+    {{- end }}

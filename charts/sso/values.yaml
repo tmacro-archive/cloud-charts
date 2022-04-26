@@ -113,3 +113,6 @@ authelia:
       oidc:
         enabled: true
         clients: []
+
+traefik:
+  additionalArgs: []
