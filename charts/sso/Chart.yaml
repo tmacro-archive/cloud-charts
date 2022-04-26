@@ -1,6 +1,6 @@
 apiVersion: v2
 name: sso
-description: A Helm chart for Kubernetes
+description: Install the SSO stack used by tmacs.cloud
 type: application
 version: '0.3.4'
 appVersion: "1.0.0"
