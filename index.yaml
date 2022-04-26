@@ -33,6 +33,16 @@ entries:
   cloud-deploy:
   - apiVersion: v2
     appVersion: 0.1.4
+    created: "2022-04-26T23:03:24.379088974Z"
+    description: Runs the deployment container for the tmacs.cloud stack
+    digest: ec5cf004a85cb859ecae06a071742b2397321d0bb3e8520addbb446aaaedec90
+    name: cloud-deploy
+    type: application
+    urls:
+    - https://github.com/tmacro/cloud-charts/releases/download/cloud-deploy-0.1.5/cloud-deploy-0.1.5.tgz
+    version: 0.1.5
+  - apiVersion: v2
+    appVersion: 0.1.4
     created: "2022-04-24T20:20:00.898803341Z"
     description: Runs the deployment container for the tmacs.cloud stack
     digest: 3f41f78e24afb92bc6ce6f8f9668e439bd0b463b3a4a8a78dcc4487477eab6a6
@@ -420,4 +430,4 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/traefik-dashboard-1.0.0/traefik-dashboard-1.0.0.tgz
     version: 1.0.0
-generated: "2022-04-26T22:14:03.762034036Z"
+generated: "2022-04-26T23:03:24.379147577Z"
