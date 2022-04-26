@@ -15,7 +15,6 @@ spec:
       web:
         redirectTo: websecure
     additionalArguments:
-      - --entrypoints.web.http.redirections.entryPoint.to=websecure
       - --entrypoints.websecure.http.middlewares=platform-chain-authelia-auth@kubernetescrd
     {{- if gt (len (default (list) .Values.traefik.additionalArgs)) 0 }}
       {{- .Values.traefik.additionalArgs | toYaml | nindent 6 }}
