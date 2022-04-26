@@ -37,9 +37,11 @@ authelia-redis:
     persistence:
       enabled: false
 
+
 authelia:
   nameOverride: authelia
   domain: example.com
+  # credentials: null
   ingress:
     enabled: true
     subdomain: sso
@@ -111,4 +113,3 @@ authelia:
       oidc:
         enabled: true
         clients: []
-

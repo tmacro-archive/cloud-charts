@@ -1,11 +1,6 @@
 {{- $root := . }}
-{{- $clientSecrets := dict }}
 {{- range $client := .Values.authelia.configMap.identity_providers.oidc.clients }}
   {{- $clientSecretName := printf "authelia-oidc-%s-client-secret" $client.id }}
-  {{- $secret := (lookup "v1" "Secret" $root.Release.Namespace $clientSecretName) | default (dict) }}
-  {{- $secretData := $secret.data | default (dict) }}
-  {{- $client_secret := $secretData.client_secret | default (randAlphaNum 128) }}
-  {{- $_ := set $clientSecrets $client.id $client_secret }}
 ---
 apiVersion: v1
 kind: Secret
@@ -24,7 +19,7 @@ metadata:
     {{- end }}
 type: Opaque
 stringData:
-  client_secret: {{ $client_secret | quote }}
+  client_secret: {{ $client.client_secret | quote }}
   client_id: {{ $client.id | quote }}
   issuer: 'https://{{ $.Values.authelia.ingress.subdomain }}.{{ $.Values.authelia.domain }}'
 {{- end }}
@@ -216,7 +211,7 @@ data:
     {{- range $client := .Values.authelia.configMap.identity_providers.oidc.clients }}
         - id: {{ $client.id }}
           description: {{ default $client.id $client.description }}
-          secret: {{ get $clientSecrets $client.id }}
+          secret: {{ $client.client_secret }}
           {{- if hasKey $client "public" }}
           public: {{ $client.public }}
           {{- end }}
