@@ -8,7 +8,7 @@ image:
   repository: tmacro/cloud-deploy
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.1.6"
+  tag: "0.1.7"
 
 service:
   port: 3000
@@ -55,7 +55,7 @@ affinity: {}
 
 secrets: {}
 
-cloudconf_version: v0.0.14
+cloudconf_version: v0.0.15
 bootstrap_version: HEAD
 existingSecrets:
   cloudconf: env-config-key
