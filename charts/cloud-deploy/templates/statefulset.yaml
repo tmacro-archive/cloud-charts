@@ -31,7 +31,7 @@ spec:
             value: /opt/secret/deploy_key/deploy_key
           - name: ENV_GPG_KEY_PATH
             value: /opt/secret/gpg_key/marvin_at_cloudconf
-          - name: CLOUDCONF_VERSION
+          - name: CLOUDCONF_VER
             value: {{ .Values.cloudconf_version }}
         # livenessProbe:
         #   httpGet:
