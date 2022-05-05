@@ -27,10 +27,6 @@ spec:
             containerPort: 3000
             protocol: TCP
         env:
-          - name: ENV_DEPLOY_KEY_PATH
-            value: /opt/secret/deploy_key/deploy_key
-          - name: ENV_GPG_KEY_PATH
-            value: /opt/secret/gpg_key/marvin_at_cloudconf
           - name: CLOUDCONF_VERSION
             value: {{ .Values.cloudconf_version }}
         # livenessProbe:
@@ -45,11 +41,17 @@ spec:
           {{- toYaml .Values.resources | nindent 10 }}
         volumeMounts:
           - name: inventory-secret
-            mountPath: /opt/secret/inventory
+            mountPath: /var/lib/cloud-deploy/inventory
+            subPath: inventory
+            readOnly: True
           - name: deploy-secret
-            mountPath: /opt/secret/deploy_key
+            mountPath: /var/lib/cloud-deploy/ssh_key
+            subPath: deploy_key
+            readOnly: True
           - name: config-secret
-            mountPath: /opt/secret/gpg_key
+            mountPath: /var/lib/cloud-deploy/gpg_key
+            subPath: gpg_key
+            readOnly: True
       volumes:
         - name: inventory-secret
           secret:
