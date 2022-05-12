@@ -83,6 +83,11 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+          env:
+            - name: CLOUDCONF_VERSION
+              value: {{ .Values.cloudconf_version }}
+            - name: CLOUD_DEPLOY_VERSION
+              value: {{ .Values.image.deploy.tag}}
           livenessProbe:
             httpGet:
               path: /
