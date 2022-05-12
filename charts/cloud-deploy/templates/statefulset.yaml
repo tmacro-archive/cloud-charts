@@ -16,42 +16,85 @@ spec:
         {{- include "cloud-deploy.labels" . | nindent 8 }}
     spec:
       terminationGracePeriodSeconds: 120
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
-      - name: {{ .Chart.Name }}
-        securityContext:
-          {{- toYaml .Values.securityContext | nindent 10 }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        ports:
-          - name: http
-            containerPort: 3000
-            protocol: TCP
-        env:
-          - name: CLOUDCONF_VERSION
-            value: {{ .Values.cloudconf_version }}
-        # livenessProbe:
-        #   httpGet:
-        #     path: /
-        #     port: http
-        # readinessProbe:
-        #   httpGet:
-        #     path: /
-        #     port: http
-        resources:
-          {{- toYaml .Values.resources | nindent 10 }}
-        volumeMounts:
-          - name: inventory-secret
-            mountPath: /var/lib/cloud-deploy/inventory
-            subPath: inventory
-            readOnly: True
-          - name: deploy-secret
-            mountPath: /var/lib/cloud-deploy/ssh_key
-            subPath: deploy_key
-            readOnly: True
-          - name: config-secret
-            mountPath: /var/lib/cloud-deploy/gpg_key
-            subPath: gpg_key
-            readOnly: True
+        - name: {{ .Chart.Name }}
+          {{- if .Values.securityContext }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 10 }}
+          {{- end }}
+          image: "{{ .Values.image.deploy.repository }}:{{ .Values.image.deploy.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.deploy.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 9000
+              protocol: TCP
+          env:
+            - name: CLOUDCONF_VERSION
+              value: {{ .Values.cloudconf_version }}
+            - name: ALLOW_TERRAFORM_DELETES
+              valueFrom:
+                configMapKeyRef:
+                  name: env-deploy-config
+                  key: enableTerraformDeletes
+                  optional: True
+            - name: ENABLE_DEPLOY_JOB
+              valueFrom:
+                configMapKeyRef:
+                  name: env-deploy-config
+                  key: enableDeployJob
+                  optional: True
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          {{- if .Values.resources.deploy }}
+          resources:
+            {{- toYaml .Values.resources.deploy | nindent 10 }}
+          {{- end }}
+          volumeMounts:
+            - name: inventory-secret
+              mountPath: /var/lib/cloud-deploy/inventory
+              subPath: inventory
+              readOnly: True
+            - name: deploy-secret
+              mountPath: /var/lib/cloud-deploy/ssh_key
+              subPath: deploy_key
+              readOnly: True
+            - name: config-secret
+              mountPath: /var/lib/cloud-deploy/gpg_key
+              subPath: gpg_key
+              readOnly: True
+        - name: {{ .Chart.Name }}-ui
+          {{- if .Values.securityContext }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 10 }}
+          {{- end }}
+          image: "{{ .Values.image.ui.repository }}:{{ .Values.image.ui.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.ui.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          {{- if .Values.resources.ui }}
+          resources:
+            {{- toYaml .Values.resources.ui | nindent 10 }}
+          {{- end }}
       volumes:
         - name: inventory-secret
           secret:

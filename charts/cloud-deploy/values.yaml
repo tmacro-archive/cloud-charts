@@ -5,13 +5,17 @@
 release: Buttercup
 
 image:
-  repository: tmacro/cloud-deploy
-  pullPolicy: Always
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "0.1.8-beta"
+  deploy:
+    repository: tmacro/cloud-deploy
+    tag: "0.1.8-beta"
+    pullPolicy: Always
+  ui:
+    repository: tmacro/cloud-deploy-ui
+    tag: "0.1.8-beta"
+    pullPolicy: Always
 
 service:
-  port: 3000
+  port: 80
 
 imagePullSecrets: []
 nameOverride: ""
@@ -35,7 +39,9 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
+resources:
+  deploy: {}
+  ui: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -54,6 +60,8 @@ tolerations: []
 affinity: {}
 
 secrets: {}
+
+securityContext: {}
 
 cloudconf_version: v0.0.15
 bootstrap_version: HEAD
