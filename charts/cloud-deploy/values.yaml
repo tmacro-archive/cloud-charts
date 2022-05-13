@@ -63,7 +63,7 @@ secrets: {}
 
 securityContext: {}
 
-cloudconf_version: v0.0.15
+cloudconf_version: v0.0.19
 bootstrap_version: HEAD
 existingSecrets:
   cloudconf: env-config-key
