@@ -22,7 +22,7 @@ argo:
 
 syncPolicy:
   automated:
-    prune: false
+    prune: true
     selfHeal: true
     allowEmpty: false
   syncOptions:
