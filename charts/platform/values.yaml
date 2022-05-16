@@ -110,7 +110,6 @@ applications:
       targetRevision: v0.0.6
     destination:
       namespace: platform
-    values: {}
 
 namespaces:
   platform:
