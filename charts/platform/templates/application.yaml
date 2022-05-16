@@ -14,9 +14,11 @@ spec:
     repoURL: '{{ $app.source.repoUrl }}'
     targetRevision: {{ $app.source.targetRevision | default $defaults.source.targetRevision }}
     path: '{{ $app.source.path | default $defaults.source.path }}'
+    {{- if hasKey $app "values" }}
     helm:
       values: |
         {{- $app.values | default $defaults.values | toYaml | nindent 8 }}
+    {{- end }}
   destination:
     server: {{ $app.destination.server | default $defaults.destination.server }}
     namespace: {{ $app.destination.namespace }}
