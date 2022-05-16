@@ -21,6 +21,8 @@ projects:
         server: https://kubernetes.default.svc
       - namespace: kube-system
         server: https://kubernetes.default.svc
+      - namespace: lock-operator
+        server: https://kubernetes.default.svc
     clusterResourceWhitelist:
       - group: '*'
         kind: '*'
@@ -109,7 +111,7 @@ applications:
       path: 'manifests'
       targetRevision: HEAD
     destination:
-      namespace: platform
+      namespace: lock-operator
 
 namespaces:
   platform:
