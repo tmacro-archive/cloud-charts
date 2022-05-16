@@ -102,6 +102,15 @@ applications:
     destination:
       namespace: kube-system
     values: {}
+  lock-operator:
+    project: platform-services
+    source:
+      repoUrl: https://git.sr.ht/~tmacro/dlm
+      path: 'manifests'
+      targetRevision: v0.0.6
+    destination:
+      namespace: platform
+    values: {}
 
 namespaces:
   platform:
