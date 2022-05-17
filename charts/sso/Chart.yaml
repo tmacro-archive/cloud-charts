@@ -2,7 +2,7 @@ apiVersion: v2
 name: sso
 description: Install the SSO stack used by tmacs.cloud.
 type: application
-version: '0.3.5'
+version: '0.3.6'
 appVersion: "1.0.0"
 dependencies:
   - name: postgresql
