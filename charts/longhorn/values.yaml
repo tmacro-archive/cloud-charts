@@ -1,0 +1,12 @@
+# Default values for longhorn.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+ingress:
+  enabled: True
+  domain: longhorn.example.com
+  entryPoints:
+    - websecure
+  tls:
+    enabled: True
+    secretName: service-tls
