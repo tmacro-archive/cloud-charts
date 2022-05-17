@@ -16,10 +16,10 @@ authelia-postgres:
     storageClass: managed-nfs
     accessModes:
       - ReadWriteMany
-  # lifecycleHooks:
-  #   postStart:
-  #     exec:
-  #       command: ["/bin/sh", "-c", "chown -R 1001:1001 /bitnami/postgresql/data"]
+  lifecycleHooks:
+    postStart:
+      exec:
+        command: ["/bin/sh", "-c", "chown -R 1001:1001 /bitnami/postgresql/data"]
 
 authelia-redis:
   enabled: true
