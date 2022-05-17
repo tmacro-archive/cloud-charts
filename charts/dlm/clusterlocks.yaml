@@ -1,0 +1,7 @@
+{{- range $name := .Values.clusterlocks }}
+---
+apiVersion: locks.k8s.tmac.dev/v1-beta1
+kind: ClusterLock
+metadata:
+  name: {{ $name }}
+{{- end }}
