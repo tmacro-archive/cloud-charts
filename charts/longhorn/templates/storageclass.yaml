@@ -7,7 +7,9 @@ allowVolumeExpansion: true
 reclaimPolicy: Delete
 volumeBindingMode: Immediate
 parameters:
-  numberOfReplicas: "4"
+  numberOfReplicas: "3"
+  dataLocality: "best-effort"
+  replicaAutoBalance: "least-effort"
   staleReplicaTimeout: "60"
   fromBackup: ""
   fsType: "ext4"
