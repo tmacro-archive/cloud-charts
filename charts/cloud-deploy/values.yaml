@@ -7,11 +7,11 @@ release: Buttercup
 image:
   deploy:
     repository: tmacro/cloud-deploy
-    tag: "0.1.8-beta"
+    tag: "0.1.8"
     pullPolicy: Always
   ui:
     repository: tmacro/cloud-deploy-ui
-    tag: "0.1.8-beta"
+    tag: "0.1.8"
     pullPolicy: Always
 
 service:
