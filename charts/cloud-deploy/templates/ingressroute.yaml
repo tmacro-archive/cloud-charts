@@ -18,7 +18,7 @@ spec:
         {{- .Values.ingress.middlewares | toYaml | nindent 8 }}
       {{- end }}
       services:
-        - name: {{ include "cloud-deploy.fullname" . }}
+        - name: {{ include "cloud-deploy.fullname" . }}-ui
           port: 80
   {{- if .Values.ingress.tls.enabled }}
   tls:

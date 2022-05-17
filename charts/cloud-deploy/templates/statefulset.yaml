@@ -29,7 +29,7 @@ spec:
           image: "{{ .Values.image.deploy.repository }}:{{ .Values.image.deploy.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.deploy.pullPolicy }}
           ports:
-            - name: http
+            - name: http-deploy-api
               containerPort: 9000
               protocol: TCP
           env:
@@ -80,7 +80,7 @@ spec:
           image: "{{ .Values.image.ui.repository }}:{{ .Values.image.ui.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.ui.pullPolicy }}
           ports:
-            - name: http
+            - name: http-deploy-ui
               containerPort: 80
               protocol: TCP
           env:
