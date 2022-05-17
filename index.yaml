@@ -162,6 +162,21 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/dlm-0.1.0/dlm-0.1.0.tgz
     version: 0.1.0
+  longhorn:
+  - apiVersion: v2
+    appVersion: 1.2.4
+    created: "2022-05-17T04:56:48.153456079Z"
+    dependencies:
+    - name: longhorn
+      repository: https://charts.longhorn.io
+      version: 1.2.4
+    description: A Helm chart for Kubernetes
+    digest: 372cce78650afff2813c7b7dbd230506dab7049c08900c53b7afc3f6842c5e0c
+    name: longhorn
+    type: application
+    urls:
+    - https://github.com/tmacro/cloud-charts/releases/download/longhorn-0.1.0/longhorn-0.1.0.tgz
+    version: 0.1.0
   nfs-provisioner:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -531,4 +546,4 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/traefik-dashboard-1.0.0/traefik-dashboard-1.0.0.tgz
     version: 1.0.0
-generated: "2022-05-17T02:05:03.018286858Z"
+generated: "2022-05-17T04:56:48.15353798Z"
