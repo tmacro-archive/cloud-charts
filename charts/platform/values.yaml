@@ -112,7 +112,7 @@ applications:
       clusterlocks:
         - unattended-upgrades
     destination:
-      namespace: platform-services
+      namespace: platform
 
 namespaces:
   platform:
