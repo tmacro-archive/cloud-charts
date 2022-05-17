@@ -107,9 +107,12 @@ applications:
   lock-operator:
     project: platform-services
     source:
-      repoUrl: https://git.sr.ht/~tmacro/dlm
-      path: 'manifests'
+      repoUrl: https://github.com/tmacro/cloud-charts.git
+      path: 'charts/dlm'
       targetRevision: HEAD
+    values:
+      clusterlocks:
+        - unattended-upgrades
     destination:
       namespace: lock-operator
 
