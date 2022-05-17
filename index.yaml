@@ -175,6 +175,20 @@ entries:
   longhorn:
   - apiVersion: v2
     appVersion: 1.2.4
+    created: "2022-05-17T19:10:04.111038449Z"
+    dependencies:
+    - name: longhorn
+      repository: https://charts.longhorn.io
+      version: 1.2.4
+    description: A Helm chart for Kubernetes
+    digest: c6d0d30e128eccaf203e4d279a0d47de93e8b49d0d2382b5cd0504a1422a728c
+    name: longhorn
+    type: application
+    urls:
+    - https://github.com/tmacro/cloud-charts/releases/download/longhorn-0.1.2/longhorn-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v2
+    appVersion: 1.2.4
     created: "2022-05-17T04:56:48.153456079Z"
     dependencies:
     - name: longhorn
@@ -608,4 +622,4 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/traefik-dashboard-1.0.0/traefik-dashboard-1.0.0.tgz
     version: 1.0.0
-generated: "2022-05-17T18:50:50.191216567Z"
+generated: "2022-05-17T19:10:04.111179138Z"
