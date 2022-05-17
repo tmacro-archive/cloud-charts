@@ -13,7 +13,7 @@ authelia-postgres:
    debug: true
   persistence:
     enabled: true
-    storageClass: longhorn
+    storageClass: longhorn-durable
     accessModes:
       - ReadWriteMany
   lifecycleHooks:
