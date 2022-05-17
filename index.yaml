@@ -329,6 +329,32 @@ entries:
   sso:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2022-05-17T06:21:58.284687666Z"
+    dependencies:
+    - alias: authelia-postgres
+      condition: authelia-postgres.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.13.8
+    - alias: authelia-redis
+      condition: authelia-redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.5.5
+    - alias: authelia
+      condition: authelia.enabled
+      name: authelia
+      repository: https://charts.authelia.com
+      version: 0.6.3
+    description: Install the SSO stack used by tmacs.cloud.
+    digest: f4afa9c29df8623e9e770257f7f7f30bdd6879b18358d52227c7b2ae6ba9e3c3
+    name: sso
+    type: application
+    urls:
+    - https://github.com/tmacro/cloud-charts/releases/download/sso-0.3.5/sso-0.3.5.tgz
+    version: 0.3.5
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2022-04-26T22:14:03.761959433Z"
     dependencies:
     - alias: authelia-postgres
@@ -546,4 +572,4 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/traefik-dashboard-1.0.0/traefik-dashboard-1.0.0.tgz
     version: 1.0.0
-generated: "2022-05-17T04:56:48.15353798Z"
+generated: "2022-05-17T06:21:58.285008981Z"
