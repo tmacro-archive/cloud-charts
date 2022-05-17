@@ -50,11 +50,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+              port: http-deploy-api
           {{- if .Values.resources.deploy }}
           resources:
             {{- toYaml .Values.resources.deploy | nindent 10 }}
@@ -91,11 +87,11 @@ spec:
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: http-deploy-ui
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: http-deploy-ui
           {{- if .Values.resources.ui }}
           resources:
             {{- toYaml .Values.resources.ui | nindent 10 }}
