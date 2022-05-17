@@ -151,6 +151,17 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/cloud-deploy-0.1.0/cloud-deploy-0.1.0.tgz
     version: 0.1.0
+  dlm:
+  - apiVersion: v2
+    appVersion: 0.0.6
+    created: "2022-05-17T02:05:03.017567391Z"
+    description: A distributed lock manager for kubernetes
+    digest: cc3b7df9d3d0b973426f096bf78bc4f31f4e276ba3711971285467e45b3f4b22
+    name: dlm
+    type: application
+    urls:
+    - https://github.com/tmacro/cloud-charts/releases/download/dlm-0.1.0/dlm-0.1.0.tgz
+    version: 0.1.0
   nfs-provisioner:
   - apiVersion: v2
     appVersion: 1.0.0
@@ -520,4 +531,4 @@ entries:
     urls:
     - https://github.com/tmacro/cloud-charts/releases/download/traefik-dashboard-1.0.0/traefik-dashboard-1.0.0.tgz
     version: 1.0.0
-generated: "2022-05-16T19:54:36.074913006Z"
+generated: "2022-05-17T02:05:03.018286858Z"
