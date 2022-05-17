@@ -1,0 +1,27 @@
+{{- if .Values.ingress.enabled }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ include "cloud-deploy.fullname" . }}
+  labels:
+    {{- include "cloud-deploy.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    {{- .Values.ingress.entryPoints | default (list) | toYaml | nindent 4 }}
+  routes:
+    - kind: Rule
+      match: Host(`{{ .Values.ingress.domain }}`)
+      priority: 10
+      {{ if gt (len (default (list) .Values.ingress.middlewares)) 0 }}
+      middlewares:
+        {{- .Values.ingress.middlewares | toYaml | nindent 8 }}
+      {{- end }}
+      services:
+        - name: {{ include "cloud-deploy.fullname" . }}
+          port: 80
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    secretName: {{ .Values.ingress.tls.secretName }}
+  {{- end }}
+{{- end }}
