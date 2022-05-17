@@ -21,8 +21,6 @@ projects:
         server: https://kubernetes.default.svc
       - namespace: kube-system
         server: https://kubernetes.default.svc
-      - namespace: lock-operator
-        server: https://kubernetes.default.svc
     clusterResourceWhitelist:
       - group: '*'
         kind: '*'
@@ -114,7 +112,7 @@ applications:
       clusterlocks:
         - unattended-upgrades
     destination:
-      namespace: lock-operator
+      namespace: platform-services
 
 namespaces:
   platform:
