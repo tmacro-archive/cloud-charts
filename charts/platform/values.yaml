@@ -123,6 +123,15 @@ applications:
         - unattended-upgrades
     destination:
       namespace: platform
+  longhorn:
+    project: platform-services
+    source:
+      repoUrl: https://github.com/tmacro/cloud-charts.git
+      path: charts/longhorn
+      targetRevision: HEAD
+    destination:
+      namespace: longhorn-system
+    values: {}
 
 namespaces:
   platform:
