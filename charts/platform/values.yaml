@@ -102,6 +102,14 @@ applications:
     destination:
       namespace: kube-system
     values: {}
+  lock-operator-crds:
+    project: platform-services
+    source:
+      repoUrl: https://git.sr.ht/~tmacro/dlm
+      path: 'manifests/crd/'
+      targetRevision: HEAD
+    destination:
+      namespace: platform
   lock-operator:
     project: platform-services
     source:
