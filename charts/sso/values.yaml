@@ -19,7 +19,7 @@ authelia-postgres:
   lifecycleHooks:
     postStart:
       exec:
-        command: ["/bin/sh", "-c", "chown -R 1001:1001 /bitnami/postgresql/data"]
+        command: ["/bin/sh", "-c", "[ ! -d /bitnami/postgresql/data ] || chown -R 1001:1001 /bitnami/postgresql/data"]
 
 authelia-redis:
   enabled: true
