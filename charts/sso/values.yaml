@@ -13,9 +13,9 @@ authelia-postgres:
    debug: true
   persistence:
     enabled: true
-    storageClass: managed-nfs
+    storageClass: longhorn-durable
     accessModes:
-      - ReadWriteMany
+      - ReadWriteOnce
   lifecycleHooks:
     postStart:
       exec:
